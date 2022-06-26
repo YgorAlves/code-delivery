@@ -4,6 +4,8 @@ RUN apk add --no-cache bash
 
 RUN npm install
 
+RUN npm install -g @nestjs/cli
+
 RUN apk-install bash
 
 USER node
