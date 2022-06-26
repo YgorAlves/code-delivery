@@ -1,6 +1,6 @@
 // @flow 
-import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
 import { DriveEta } from '@mui/icons-material';
+import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import * as React from 'react';
 
 export const Navbar: React.FunctionComponent = () => {

@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/go/src/
     extra_hosts:
-      - "docker.for.win.host.internal:172.17.0.1"
+      - "host.docker.internal:172.17.0.1"
       
 networks:
   default:

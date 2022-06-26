@@ -23,6 +23,4 @@ func Produce(msg *ckafka.Message) {
 		kafka.Publish(p, os.Getenv("KafkaProduceTopic"), producer)
 		time.Sleep(time.Millisecond * 500)
 	}
-
-
 }
