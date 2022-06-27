@@ -35,15 +35,44 @@ export const Mapping: FunctionComponent = () => {
     const socketIORef = useRef<io.Socket>();
     const {enqueueSnackbar} = useSnackbar();
 
+    const finishRoute = useCallback((route: Route) => {
+      enqueueSnackbar(`${route.title} finalizou!`, {
+        variant: "success"
+      })
+
+      mapRef.current?.removeRoute(route._id);
+    }, [enqueueSnackbar])
+
     useEffect(() => {
-      socketIORef.current = io.connect(API_URL);
-      socketIORef.current.on('connect', () => console.log('conectou'))
-    }, [])
+      if (!socketIORef.current?.connected) {
+        socketIORef.current = io.connect(API_URL);
+        socketIORef.current.on('connect', () => console.log('conectou'))
+      }
+      const handler = (data: {routeId: string; position: [number, number]; finished: boolean}) => {
+        mapRef.current?.moveCurrentMarker(data.routeId, {
+          lat: data.position[0],
+          lng: data.position[1]
+        });
+        const route = routes.find(route => route._id === data.routeId) as Route;
+        if (data.finished) {
+          finishRoute(route)
+        }
+      };
+
+      socketIORef.current?.on('new-position', handler)
+      return () => {
+        socketIORef.current?.off('new-position', handler)
+      }
+      
+    }, [finishRoute, routes]);
 
     useEffect(() => {
         fetch(`${API_URL}/routes`)
             .then((data) => data.json())
-            .then((data) => setRoutes(data));
+            .then((data) => {
+              setRoutes(data)
+            });
+        
     }, []);
 
     useEffect(() => {

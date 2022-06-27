@@ -35,7 +35,7 @@ export class RoutesGateway implements OnModuleInit {
         },
       ],
     });
-    console.log(payload);
+    console.log('new-direction: ' + payload.routeId + ' - ' + client.client.id);
   }
 
   sendPosition(data: {
