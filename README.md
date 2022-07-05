@@ -1,4 +1,4 @@
-Projeto de estudo utilizando:
+Study project using:
 
 DevOps:
     - Kafka
